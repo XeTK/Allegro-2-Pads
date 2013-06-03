@@ -79,7 +79,7 @@ namespace PadsConvert
                             {
                                 if (Pad_Files[k].New_pad_name == null)
                                 {
-                                    Pad_Files[k].New_pad_name = Path.GetFileNameWithoutExtension(CSV_Files[i].Path) + pads;
+                                    Pad_Files[k].New_pad_name = Path.GetFileNameWithoutExtension(CSV_Files[i].Path) + "_" + pads;
                                     Pad_Files[k].New_dot_pad_file = fbd_export.SelectedPath + "\\PadStacks\\" + Pad_Files[k].New_pad_name + ".pad";
                                     pads++;
                                 }

@@ -13,8 +13,8 @@ namespace PadsConvert
 {
     public partial class FRM_Main : Form
     {
-        private List<CSV_File> CSV_Files = new List<CSV_File>();
-        private List<PadConvert> Pad_Files = new List<PadConvert>();
+        private List<CSV_File> CSV_Files;
+        private List<PadConvert> Pad_Files;
 
         public FRM_Main()
         {
@@ -23,10 +23,11 @@ namespace PadsConvert
 
         private void btn_open_Click(object sender, EventArgs e)
         {
+            CSV_Files = new List<CSV_File>();
+            Pad_Files = new List<PadConvert>();
             fbd_open_csv.Description = "Select folder containing .csv files, Typicaly called Symbols";
             if (fbd_open_csv.ShowDialog() == DialogResult.OK)
             {
-                Console.WriteLine("{0} .csv location", fbd_open_csv.SelectedPath);
                 string[] CSV_files = new Explore().find_CSV(fbd_open_csv.SelectedPath);
                 for (int i = 0; i < CSV_files.Length; i++)
                 {
@@ -66,7 +67,6 @@ namespace PadsConvert
             fbd_export.Description = "Where to save .pads files";
             if (fbd_export.ShowDialog() == DialogResult.OK)
             {
-                Console.WriteLine("{0} .pads export path", fbd_export.SelectedPath);
                 for (int i = 0; i < CSV_Files.Count; i++)
                 {
                     int pads = 0;
@@ -113,15 +113,27 @@ namespace PadsConvert
                             "# Format for pin definition file (comma delineated)\n" +
                             "#    To Mirror pin text use \"m\".\n" +
                             "#PinNumber,Padstack,x,y,rotation,textOffsetX,textOffsetY,textRotate,textMirror\n");
-                    for (int j = 0; j < pls.Count; j++)
-                    {
-                        fi.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},", pls[j].Pin_no, pls[j].Pad_Stack, pls[j].X, pls[j].Y, pls[j].Rotation, pls[j].Text_Offset_X, pls[j].Text_Offset_Y, pls[j].Text_Rotate, pls[j].Text_Mirror);
-                    }
+                     for (int j = 0; j < pls.Count; j++)
+                        fi.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},", pls[j].Pin_no, pls[j].Pad_Stack, str_format(pls[j].X), str_format(pls[j].Y), pls[j].Rotation, str_format(pls[j].Text_Offset_X), str_format(pls[j].Text_Offset_Y), pls[j].Text_Rotate, pls[j].Text_Mirror);
                     fi.Close();
 
                 }
             }
             MessageBox.Show("Export Complete","We are done",MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
+        private string str_format(string in_str)
+        {
+            char[] temp = "0.000000".ToCharArray();
+            char[] i_str = in_str.ToCharArray();
+
+            for (int i = 0; i < in_str.Length; i++)
+                temp[i] = i_str[i];
+
+            return new string(temp);
+        }
+        private string str_format(float in_float)
+        {
+            return str_format(in_float.ToString());
         }
     }
 }

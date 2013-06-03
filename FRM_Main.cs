@@ -114,7 +114,7 @@ namespace PadsConvert
                             "#    To Mirror pin text use \"m\".\n" +
                             "#PinNumber,Padstack,x,y,rotation,textOffsetX,textOffsetY,textRotate,textMirror\n");
                      for (int j = 0; j < pls.Count; j++)
-                        fi.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},", pls[j].Pin_no, pls[j].Pad_Stack, str_format(pls[j].X), str_format(pls[j].Y), pls[j].Rotation, str_format(pls[j].Text_Offset_X), str_format(pls[j].Text_Offset_Y), pls[j].Text_Rotate, pls[j].Text_Mirror);
+                        fi.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},", pls[j].Pin_no, pls[j].Pad_Stack.ToUpper(), str_format(pls[j].X), str_format(pls[j].Y), pls[j].Rotation, str_format(pls[j].Text_Offset_X), str_format(pls[j].Text_Offset_Y), pls[j].Text_Rotate, pls[j].Text_Mirror);
                     fi.Close();
 
                 }

@@ -23,7 +23,7 @@ namespace PadsConvert
 
         private void btn_open_Click(object sender, EventArgs e)
         {
-            fbd_open_csv.Description = "Select folder containing .csv files";
+            fbd_open_csv.Description = "Select folder containing .csv files, Typicaly called Symbols";
             if (fbd_open_csv.ShowDialog() == DialogResult.OK)
             {
                 Console.WriteLine("{0} .csv location", fbd_open_csv.SelectedPath);
@@ -34,8 +34,8 @@ namespace PadsConvert
                     CSV_Files.Add(new CSV_File(CSV_files[i]));
                 }
             }
-
-            fbd_open_pads.Description = "Select folder containing .pads files";
+            fbd_open_pads.SelectedPath = fbd_open_csv.SelectedPath;
+            fbd_open_pads.Description = "Select folder containing .pads files, Usualy called padstacks";
             if (fbd_open_pads.ShowDialog() == DialogResult.OK)
             {
                 string[] Pads_files = new Explore().find_PADS(fbd_open_pads.SelectedPath);
@@ -61,11 +61,8 @@ namespace PadsConvert
                 }
 
             }
-            MessageBox.Show("Import Complete", "We are done", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-        }
 
-        private void btn_export_Click(object sender, EventArgs e)
-        {
+            fbd_export.SelectedPath = fbd_open_csv.SelectedPath;
             fbd_export.Description = "Where to save .pads files";
             if (fbd_export.ShowDialog() == DialogResult.OK)
             {
@@ -84,6 +81,7 @@ namespace PadsConvert
                                 {
                                     Pad_Files[k].New_pad_name = Path.GetFileNameWithoutExtension(CSV_Files[i].Path) + pads;
                                     Pad_Files[k].New_dot_pad_file = fbd_export.SelectedPath + "\\PadStacks\\" + Pad_Files[k].New_pad_name + ".pad";
+                                    pads++;
                                 }
                                 pls[j].Pad_Stack = Pad_Files[k].New_pad_name;
                                 break;

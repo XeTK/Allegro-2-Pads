@@ -26,6 +26,7 @@ namespace PadsConvert
         {
             CSV_Files = new List<CSV_File>();
             Pad_Files = new List<PadConvert>();
+            fbd_open_csv.SelectedPath = "F:\\Allegro\\AllegroLibrary\\PCB_Symbols";
             fbd_open_csv.Description = "Select folder containing .csv files, Typicaly called Symbols";
             if (fbd_open_csv.ShowDialog() == DialogResult.OK)
             {
@@ -120,27 +121,15 @@ namespace PadsConvert
                             "#    To Mirror pin text use \"m\".\n" +
                             "#PinNumber,Padstack,x,y,rotation,textOffsetX,textOffsetY,textRotate,textMirror\n");
                      for (int j = 0; j < pls.Count; j++)
-                        fi.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},", pls[j].Pin_no, pls[j].Pad_Stack.ToUpper(), str_format(pls[j].X), str_format(pls[j].Y), pls[j].Rotation, str_format(pls[j].Text_Offset_X), str_format(pls[j].Text_Offset_Y), pls[j].Text_Rotate, pls[j].Text_Mirror);
+                         fi.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},", pls[j].Pin_no, pls[j].Pad_Stack.ToUpper(), pls[j].X.ToString("0.000000"), pls[j].Y.ToString("0.000000"), pls[j].Rotation, pls[j].Text_Offset_X.ToString("0.000000"), pls[j].Text_Offset_Y.ToString("0.000000"), pls[j].Text_Rotate, pls[j].Text_Mirror);
                     fi.Close();
 
                 }
             }
             MessageBox.Show("Export Complete","We are done",MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
-        private string str_format(string in_str)
-        {
-            char[] temp = "0.000000".ToCharArray();
-            char[] i_str = in_str.ToCharArray();
+ 
 
-            for (int i = 0; i < in_str.Length; i++)
-                temp[i] = i_str[i];
-
-            return new string(temp);
-        }
-        private string str_format(float in_float)
-        {
-            return str_format(in_float.ToString());
-        }
         static string GetMd5Hash(MD5 md5Hash, string input)
         {
 
@@ -159,7 +148,7 @@ namespace PadsConvert
             }
 
             // Return the hexadecimal string. 
-            return sBuilder.ToString();
+            return sBuilder.ToString().Substring(0, 16);
         }
     }
 }
